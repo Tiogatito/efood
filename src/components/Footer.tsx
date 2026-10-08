@@ -1,5 +1,69 @@
-import styled from 'styled-components';
-import { colors } from '../styles';
-const Area = styled.footer`background: ${colors.cream}; min-height: 298px; padding: 40px 16px; text-align: center; > img { margin: auto; } p { font-size: 10px; line-height: 12px; max-width: 480px; margin: 80px auto 0; }`;
-const Social = styled.div`display: flex; justify-content: center; gap: 8px; margin-top: 32px; a { border-radius: 50%; } @media(pointer: coarse) { a { padding: 10px; } }`;
-export function Footer() { return <Area><img src="/assets/logo.svg" alt="efood" width="125" height="57.5" /><Social><a href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram"><img src="/assets/instagram.svg" alt="" width="24" height="24" /></a><a href="https://www.facebook.com/" target="_blank" rel="noreferrer" aria-label="Facebook"><img src="/assets/facebook.svg" alt="" width="24" height="24" /></a><a href="https://twitter.com/" target="_blank" rel="noreferrer" aria-label="Twitter"><img src="/assets/twitter.svg" alt="" width="24" height="24" /></a></Social><p>A efood é uma plataforma para divulgação de estabelecimentos, a responsabilidade pela entrega, qualidade dos produtos é toda do estabelecimento contratado.</p></Area>; }
+import styled from "styled-components";
+import { colors } from "../styles";
+const Area = styled.footer`
+  background: ${colors.cream};
+  min-height: 298px;
+  padding: 40px 16px;
+  text-align: center;
+  > img {
+    margin: auto;
+  }
+  p {
+    font-size: 10px;
+    line-height: 12px;
+    max-width: 480px;
+    margin: 80px auto 0;
+  }
+`;
+const Social = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 32px;
+  a {
+    border-radius: 50%;
+  }
+  @media (pointer: coarse) {
+    a {
+      padding: 10px;
+    }
+  }
+`;
+export function Footer() {
+  return (
+    <Area>
+      <img src="/assets/logo.svg" alt="efood" width="125" height="57.5" />
+      <Social>
+        <a
+          href="https://www.instagram.com/"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Instagram"
+        >
+          <img src="/assets/instagram.svg" alt="" width="24" height="24" />
+        </a>
+        <a
+          href="https://www.facebook.com/"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Facebook"
+        >
+          <img src="/assets/facebook.svg" alt="" width="24" height="24" />
+        </a>
+        <a
+          href="https://twitter.com/"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Twitter"
+        >
+          <img src="/assets/twitter.svg" alt="" width="24" height="24" />
+        </a>
+      </Social>
+      <p>
+        A efood é uma plataforma para divulgação de estabelecimentos, a
+        responsabilidade pela entrega, qualidade dos produtos é toda do
+        estabelecimento contratado.
+      </p>
+    </Area>
+  );
+}
