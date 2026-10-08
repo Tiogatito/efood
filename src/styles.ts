@@ -5,6 +5,7 @@ export const GlobalStyle = createGlobalStyle`
   *, *::before, *::after { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: ${colors.background}; color: ${colors.coral}; font-family: 'Roboto', sans-serif; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
   h1, h2, h3, p { margin: 0; }
   button, input { font: inherit; }
   button, a { -webkit-tap-highlight-color: transparent; }
