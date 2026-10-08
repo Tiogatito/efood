@@ -114,6 +114,7 @@ const Confirmation = styled.section`
   }
 `;
 interface Props {
+  active: boolean;
   onBack: () => void;
   onComplete: () => void;
   onBusy: (busy: boolean) => void;
@@ -131,7 +132,7 @@ const labels: Partial<Record<keyof CheckoutValues, string>> = {
   month: "Mês de vencimento",
   year: "Ano de vencimento",
 };
-export function Checkout({ onBack, onComplete, onBusy }: Props) {
+export function Checkout({ active, onBack, onComplete, onBusy }: Props) {
   const [step, setStep] = useState<"delivery" | "payment" | "confirmation">(
     "delivery",
   );
@@ -207,8 +208,8 @@ export function Checkout({ onBack, onComplete, onBusy }: Props) {
     ([key]) => formik.touched[key as keyof CheckoutValues],
   );
   useEffect(() => {
-    heading.current?.focus();
-  }, [step]);
+    if (active) heading.current?.focus();
+  }, [step, active]);
   useEffect(() => {
     if (
       formik.isValidating ||
@@ -216,10 +217,8 @@ export function Checkout({ onBack, onComplete, onBusy }: Props) {
       formik.submitCount <= lastFocusedSubmit.current
     )
       return;
-    if (errors.length) {
-      summary.current?.focus();
-      lastFocusedSubmit.current = formik.submitCount;
-    }
+    if (errors.length) summary.current?.focus();
+    lastFocusedSubmit.current = formik.submitCount;
   }, [
     formik.submitCount,
     formik.isValidating,

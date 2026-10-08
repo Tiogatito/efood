@@ -140,50 +140,53 @@ export function CartDrawer() {
       >
         <img src="/assets/fechar.png" alt="" />
       </CloseButton>
-      {checkout ? (
+      <div hidden={!checkout}>
         <Checkout
+          active={checkout}
           onBack={() => setCheckout(false)}
           onComplete={close}
           onBusy={setBusy}
         />
-      ) : items.length ? (
-        <>
-          <h2 className="sr-only">Carrinho de compras</h2>
-          <Items>
-            {items.map((item) => (
-              <Item key={item.lineId}>
-                <img src={item.foto} alt={item.nome} width="80" height="80" />
-                <div>
-                  <h3>{item.nome}</h3>
-                  <p>{formatPrice(item.preco)}</p>
-                </div>
-                <button
-                  type="button"
-                  aria-label={`Remover ${item.nome} do carrinho`}
-                  onClick={() => dispatch(removeProduct(item.lineId))}
-                >
-                  <img src="/assets/lixeira.png" alt="" />
-                </button>
-              </Item>
-            ))}
-          </Items>
-          <Total aria-live="polite">
-            <span>Valor total</span>
-            <span>{formatPrice(total)}</span>
-          </Total>
-          <Button $light $full onClick={() => setCheckout(true)}>
-            Continuar com a entrega
-          </Button>
-        </>
-      ) : (
-        <Empty>
-          <h2>Seu carrinho está vazio</h2>
-          <p>Adicione um prato do cardápio para continuar.</p>
-          <Button $light $full onClick={close}>
-            Voltar ao cardápio
-          </Button>
-        </Empty>
-      )}
+      </div>
+      {!checkout &&
+        (items.length ? (
+          <>
+            <h2 className="sr-only">Carrinho de compras</h2>
+            <Items>
+              {items.map((item) => (
+                <Item key={item.lineId}>
+                  <img src={item.foto} alt={item.nome} width="80" height="80" />
+                  <div>
+                    <h3>{item.nome}</h3>
+                    <p>{formatPrice(item.preco)}</p>
+                  </div>
+                  <button
+                    type="button"
+                    aria-label={`Remover ${item.nome} do carrinho`}
+                    onClick={() => dispatch(removeProduct(item.lineId))}
+                  >
+                    <img src="/assets/lixeira.png" alt="" />
+                  </button>
+                </Item>
+              ))}
+            </Items>
+            <Total aria-live="polite">
+              <span>Valor total</span>
+              <span>{formatPrice(total)}</span>
+            </Total>
+            <Button $light $full onClick={() => setCheckout(true)}>
+              Continuar com a entrega
+            </Button>
+          </>
+        ) : (
+          <Empty>
+            <h2>Seu carrinho está vazio</h2>
+            <p>Adicione um prato do cardápio para continuar.</p>
+            <Button $light $full onClick={close}>
+              Voltar ao cardápio
+            </Button>
+          </Empty>
+        ))}
     </Drawer>
   );
 }
