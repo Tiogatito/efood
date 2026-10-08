@@ -26,6 +26,6 @@ export function Profile() {
     <span className="sr-only" role="status">{notice}</span>
     {restaurant.cardapio.length ? <List>{restaurant.cardapio.map((product) => <ProductCard key={product.id} product={product} onDetails={setSelected} />)}</List> : <Message><h2>Cardápio indisponível</h2></Message>}
   </main>{selected && <ProductModal product={selected} onClose={() => setSelected(null)} onAdd={(product) => {
-    dispatch(addProduct(product)); setSelected(null); setNotice(`${product.nome} adicionado ao carrinho.`);
+    dispatch(addProduct(product)); setSelected(null); dispatch(openCart()); setNotice(`${product.nome} adicionado ao carrinho.`);
   }} />}</>;
 }
