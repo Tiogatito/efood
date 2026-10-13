@@ -31,10 +31,10 @@ export const maskZip = (value: string) =>
   digits(value)
     .slice(0, 8)
     .replace(/^(\d{5})(\d)/, "$1-$2");
-export const maskCard = (value: string) =>
-  digits(value)
-    .slice(0, 19)
-    .replace(/(\d{4})(?=\d)/g, "$1 ");
+export const CARD_NUMBER_MIN_DIGITS = 13;
+export const CARD_NUMBER_MAX_DIGITS = 19;
+export const normalizeCardNumber = (value: string) =>
+  digits(value).slice(0, CARD_NUMBER_MAX_DIGITS);
 const requiredName = (label: string) =>
   Yup.string()
     .trim()
@@ -72,7 +72,11 @@ export const deliverySchema = Yup.object({
 });
 function validCard(value: string) {
   const number = digits(value);
-  if (!/^\d{13,19}$/.test(number) || /^(\d)\1+$/.test(number)) return false;
+  if (
+    number.length < CARD_NUMBER_MIN_DIGITS ||
+    number.length > CARD_NUMBER_MAX_DIGITS ||
+    /^(\d)\1+$/.test(number)
+  ) return false;
   let total = 0;
   for (
     let i = number.length - 1, double = false;
@@ -92,9 +96,23 @@ export const paymentSchema = Yup.object({
   cardName: requiredName("O nome no cartão"),
   cardNumber: Yup.string()
     .required("Informe o número do cartão.")
-    .test("card", "Informe um número de cartão válido.", (value) =>
-      validCard(value || ""),
-    ),
+    .test(
+      "card-length",
+      `O número do cartão deve ter entre ${CARD_NUMBER_MIN_DIGITS} e ${CARD_NUMBER_MAX_DIGITS} dígitos.`,
+      (value) => {
+        const length = digits(value || "").length;
+        return (
+          !value ||
+          (length >= CARD_NUMBER_MIN_DIGITS && length <= CARD_NUMBER_MAX_DIGITS)
+        );
+      },
+    )
+    .test("card", "Informe um número de cartão válido.", (value) => {
+      const length = digits(value || "").length;
+      if (length < CARD_NUMBER_MIN_DIGITS || length > CARD_NUMBER_MAX_DIGITS)
+        return true;
+      return validCard(value || "");
+    }),
   cardCode: Yup.string()
     .required("Informe o CVV.")
     .matches(/^\d{3,4}$/, "O CVV deve ter 3 ou 4 números."),

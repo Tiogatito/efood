@@ -11,9 +11,10 @@ import {
 } from "../store";
 import {
   deliverySchema,
+  CARD_NUMBER_MAX_DIGITS,
   digits,
   initialValues,
-  maskCard,
+  normalizeCardNumber,
   maskZip,
   paymentSchema,
   placeOrder,
@@ -231,7 +232,7 @@ export function Checkout({ active, onBack, onComplete, onBusy }: Props) {
   ) {
     const error = formik.touched[name] && formik.errors[name];
     return (
-      <Field>
+      <Field key={name}>
         <label htmlFor={name}>{labels[name]}</label>
         <input
           {...formik.getFieldProps(name)}
@@ -246,7 +247,7 @@ export function Checkout({ active, onBack, onComplete, onBusy }: Props) {
               name === "zipCode"
                 ? maskZip(value)
                 : name === "cardNumber"
-                  ? maskCard(value)
+                  ? normalizeCardNumber(value)
                   : ["houseNumber", "cardCode", "month", "year"].includes(name)
                     ? digits(value)
                     : value,
@@ -356,9 +357,11 @@ export function Checkout({ active, onBack, onComplete, onBusy }: Props) {
             {field("cardName", { autoComplete: "cc-name", maxLength: 100 })}
             <Row $card>
               {field("cardNumber", {
+                type: "text",
                 autoComplete: "cc-number",
                 inputMode: "numeric",
-                maxLength: 23,
+                maxLength: CARD_NUMBER_MAX_DIGITS,
+                placeholder: "Somente números",
               })}
               {field("cardCode", {
                 autoComplete: "cc-csc",
